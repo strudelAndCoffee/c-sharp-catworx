@@ -14,7 +14,7 @@ namespace CatWorx.BadgeMaker
                 Console.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
             }
         }
-        public static void MakeSCV(List<Employee> employees)
+        public static void MakeCSV(List<Employee> employees)
         {
             if (!Directory.Exists("data"))
             {
@@ -28,6 +28,28 @@ namespace CatWorx.BadgeMaker
                 {
                     string template = "{0},{1},{2}";
                     file.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
+                }
+            }
+        }
+        public static void ReadCSV()
+        {
+            if (Directory.Exists("data"))
+            {
+                try 
+                {
+                    using (StreamReader sr = new StreamReader("data/employees.csv"))
+                    {
+                        string line;
+                        while ((line = sr.ReadLine()) != null)
+                        {
+                            Console.WriteLine(line);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("The file could not be read:");
+                    Console.WriteLine(e.Message);
                 }
             }
         }
