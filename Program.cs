@@ -10,7 +10,7 @@ namespace CatWorx.BadgeMaker
         List<Employee> employees = new List<Employee>();
         while (true)
         {
-            Console.WriteLine("Please enter a name: (leave empty to exit): ");
+            Console.WriteLine("Please enter first name: (leave empty to exit): ");
             // null coalescing operator ??: if input is null, replace with empty string ""
             string firstName = Console.ReadLine() ?? "";
             if (firstName == "")
@@ -21,7 +21,7 @@ namespace CatWorx.BadgeMaker
             string lastName = Console.ReadLine() ?? "";
             Console.Write("Enter ID: ");
             int id = Int32.Parse(Console.ReadLine() ?? "");
-            Console.Write("Enter Photo URL:");
+            Console.Write("Enter photo URL:");
             string photoUrl = Console.ReadLine() ?? "";
 
             Employee currentEmployee = new Employee(firstName, lastName, id, photoUrl);
@@ -29,18 +29,11 @@ namespace CatWorx.BadgeMaker
         }
         return employees;
     }
-    static void PrintEmplayees(List<Employee> employees)
-    {
-        for (int i = 0; i < employees.Count; i++) 
-        {
-            string template = "{0,-10}\t{1,-20}\t{2}";
-            Console.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
-        }
-    }
     static void Main(string[] args)
     {
         List<Employee> employees = GetEmployees();
-        PrintEmplayees(employees);
+        Util.PrintEmployees(employees);
+        Util.MakeSCV(employees);
     }
   }
 }
