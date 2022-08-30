@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using SkiaSharp;
 
 namespace CatWorx.BadgeMaker
 {
@@ -14,6 +17,7 @@ namespace CatWorx.BadgeMaker
                 Console.WriteLine(String.Format(template, employees[i].GetId(), employees[i].GetFullName(), employees[i].GetPhotoUrl()));
             }
         }
+
         public static void MakeCSV(List<Employee> employees)
         {
             if (!Directory.Exists("data"))
@@ -31,6 +35,7 @@ namespace CatWorx.BadgeMaker
                 }
             }
         }
+
         public static void ReadCSV()
         {
             if (Directory.Exists("data"))
@@ -50,6 +55,21 @@ namespace CatWorx.BadgeMaker
                 {
                     Console.WriteLine("The file could not be read:");
                     Console.WriteLine(e.Message);
+                }
+            }
+        }
+
+        async public static Task MakeBadges(List<Employee> employees)
+        {
+            using(HttpClient client = new HttpClient())
+            {
+                for (int i = 0; i < employees.Count; i++)
+                {
+                    SKImage photo = SKImage.FromEncodedData(await client.GetStreamAsync(employees[i].GetPhotoUrl()));
+                    SKImage background = SKImage.FromEncodedData(File.OpenRead("badge.png"));
+
+                    // SKData data = background.Encode();
+                    // data.SaveTo(File.OpenWrite("data/employeeBadge.png"));
                 }
             }
         }
